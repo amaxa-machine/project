@@ -1,0 +1,53 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/flVkr">Назад</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Редактирование</li>
+  </ol>
+</nav>
+
+
+<div class="view-user p-3">
+  {{#each result}}
+  <div class="row mb-3">
+    <div class="col text-center">
+      <h3>{{this.student_name}}</h3>
+    </div>
+  </div>
+  <div class="row p-4">
+    <div class="col">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Студент</th>
+            <th scope="col">Преподаватель</th>
+            <th scope="col">Тема ВКР</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{this.student_name}}</td>
+            <td>{{this.teacher_name}}</td>
+            <td>{{this.theme_name}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <form class="row g-3 needs-validation" method="POST" action="/flVkr/flAdmin/insert/{{this.id}}" novalidate>
+        {{> extInsertForm}}
+    </form>
+
+  </div>
+  {{/each}}
+
+  {{#if alert}}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{alert}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {{/if}}
+
+
+</div>
+
+
