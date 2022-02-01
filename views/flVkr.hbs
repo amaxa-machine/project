@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-6"><h1>Студенты</h1></div>
   <div class="col-6 d-flex justify-content-end">
-      <a href="/flVkr/flAdmin" type="button" class="btn btn-primary align-self-center">Редактирование</a>
+      <a href="/flVkr/admin" type="button" class="btn btn-primary align-self-center">Редактирование</a>
   </div>
 </div>
 
@@ -13,6 +13,7 @@
       <th scope="col" class="col col-auto">Студент</th>
       <th scope="col" class="col col-auto">Тема ВКР</th>
       <th scope="col" class="col col-auto">Преподаватель</th>
+      <th scope="col" class="col col-auto">Рецензент</th>
       <th scope="col" class="col col-sm-1 text-center">Комментарий</th>
     </tr>
   </thead>
@@ -20,17 +21,15 @@
   <tbody>
     {{#each result}}
     <tr>
-      <th scope="row" class="text-center">{{this.id}}</th>
+      <th scope="row" class="text-center">{{this.student_id}}</th>
       <td>{{this.student_name}}</td>
       <td>{{this.theme_name}}</td>
       <td>{{this.teacher_name}}</td>
+      <td>{{this.reviewer_name}}</td>
       <td class="text-center">
-        <a href="/flVkr/viewuser/{{this.id}}" type="button" class="btn btn-light btn-small"><i class="bi bi-eye"></i> Просм.</a>
+        <a href="/flVkr/viewuser/{{this.student_id}}" type="button" class="btn btn-light btn-small"><i class="bi bi-eye"></i> Просм.</a>
       </td>
     </tr>
     {{/each}}
-    
-    
   </tbody>
-
 </table>
