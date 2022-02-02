@@ -17,7 +17,7 @@ exports.extVkr = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         console.log("db " + connection.state + "\n");
-        connection.query("SELECT * FROM extStudents AS st LEFT JOIN teachers AS te ON st.teacher_id = te.teacher_id LEFT JOIN extThemes AS th ON st.theme_id=th.theme_id LEFT JOIN reviewers AS re ON st.reviewer_id=re.reviewer_id;", (err, result) => {
+        connection.query("SELECT * FROM extStudents;", (err, result) => {
             connection.release();
             if (!err) {
                 res.render("extVkr", {search: "/extVkr", result: result});
@@ -35,7 +35,7 @@ exports.extSearch = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         console.log("db " + connection.state + "\n");
-        connection.query("SELECT * FROM extStudents AS st JOIN teachers AS te ON st.teacher_id=te.teacher_id LEFT JOIN extThemes AS th ON st.theme_id=th.theme_id WHERE student_name LIKE ? OR teacher_name LIKE ?", ['%' + searchTerm + '%', '%' + searchTerm + '%'], (err, result) => {
+        connection.query("SELECT * FROM extStudents WHERE student_name LIKE ? OR teacher_name LIKE ?", ['%' + searchTerm + '%', '%' + searchTerm + '%'], (err, result) => {
             connection.release();
             if (!err) {
                 res.render("extVkr", {result: result});
@@ -51,7 +51,7 @@ exports.extViewAll = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         console.log("db " + connection.state + "\n");
-        connection.query("SELECT * FROM extStudents AS st LEFT JOIN teachers AS te ON st.teacher_id=te.teacher_id LEFT JOIN extThemes AS th ON st.theme_id=th.theme_id LEFT JOIN reviewers AS re ON st.reviewer_id=re.reviewer_id WHERE student_id=?;", [req.params.id], (err, result) => {
+        connection.query("SELECT * FROM extStudents WHERE student_id=?;", [req.params.id], (err, result) => {
             connection.release();
             if (!err) {
                 res.render("extViewAll", {result: result});
@@ -67,7 +67,7 @@ exports.extAdmin = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         console.log("db " + connection.state + "\n");
-        connection.query("SELECT * FROM extStudents AS st LEFT JOIN teachers AS te ON st.teacher_id = te.teacher_id LEFT JOIN extThemes AS th ON st.theme_id=th.theme_id LEFT JOIN reviewers AS re ON st.reviewer_id=re.reviewer_id;", (err, result) => {
+        connection.query("SELECT * FROM extStudents;", (err, result) => {
             connection.release();
             if (!err) {
                 res.render("extAdmin", {search: "/etxVkr", result: result});
@@ -84,7 +84,7 @@ exports.extInsertPage = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         console.log("db " + connection.state + "\n");
-            connection.query("SELECT * FROM extStudents AS st LEFT JOIN teachers AS te ON st.teacher_id=te.teacher_id LEFT JOIN extThemes AS th ON st.theme_id=th.theme_id LEFT JOIN reviewers AS re ON st.reviewer_id=re.reviewer_id WHERE student_id=?;", [req.params.id], (err, result) => {
+            connection.query("SELECT * FROM extStudents WHERE student_id=?;", [req.params.id], (err, result) => {
             connection.release();
             if (!err) {
                 res.render("extInsert", {result: result});
@@ -107,7 +107,7 @@ exports.extInsert = (req, res) => {
                 pool.getConnection((err, connection) => {
                     if (err) throw err;
                     console.log("db " + connection.state + "\n");
-                      connection.query("SELECT * FROM extStudents AS st LEFT JOIN teachers AS te ON st.teacher_id=te.teacher_id LEFT JOIN extThemes AS th ON st.theme_id=th.theme_id LEFT JOIN reviewers AS re ON st.reviewer_id=re.reviewer_id WHERE student_id=?;", [req.params.id], (err, result) => {
+                      connection.query("SELECT * FROM extStudents WHERE student_id=?;", [req.params.id], (err, result) => {
                         connection.release();
                         if (!err) {
                             res.render("extInsert", {result, alert: "Запись обновлена."});
@@ -133,7 +133,7 @@ exports.flVkr = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         console.log("db " + connection.state + "\n");
-        connection.query("SELECT * FROM flStudents AS st LEFT JOIN teachers AS te ON st.teacher_id = te.teacher_id LEFT JOIN flThemes AS th ON st.theme_id=th.theme_id LEFT JOIN reviewers AS re ON st.reviewer_id=re.reviewer_id;", (err, result) => {
+        connection.query("SELECT * FROM flStudents;", (err, result) => {
             connection.release();
             if (!err) {
                 res.render("flVkr", {search: "/flVkr", result: result});
@@ -151,7 +151,7 @@ exports.flSearch = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         console.log("db " + connection.state + "\n");
-        connection.query("SELECT * FROM flStudents AS st LEFT JOIN teachers AS te ON st.teacher_id=te.teacher_id WHERE student_name LIKE ? OR teacher_name LIKE ?", ['%' + searchTerm + '%', '%' + searchTerm + '%'], (err, result) => {
+        connection.query("SELECT * FROM flStudents WHERE student_name LIKE ? OR teacher_name LIKE ?;", ['%' + searchTerm + '%', '%' + searchTerm + '%'], (err, result) => {
             connection.release();
             if (!err) {
                 res.render("flVkr", {result: result});
@@ -167,7 +167,7 @@ exports.flViewAll = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         console.log("db " + connection.state + "\n");
-        connection.query("SELECT * FROM flStudents AS st LEFT JOIN teachers AS te ON st.teacher_id=te.teacher_id LEFT JOIN extThemes AS th ON st.theme_id=th.theme_id LEFT JOIN reviewers AS re ON st.reviewer_id=re.reviewer_id WHERE student_id=?;", [req.params.id], (err, result) => {
+        connection.query("SELECT * FROM flStudents WHERE student_id=?;", [req.params.id], (err, result) => {
             connection.release();
             if (!err) {
                 res.render("flViewAll", {result: result});
@@ -184,7 +184,7 @@ exports.flAdmin = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         console.log("db " + connection.state + "\n");
-        connection.query("SELECT * FROM flStudents AS st LEFT JOIN teachers AS te ON st.teacher_id = te.teacher_id LEFT JOIN extThemes AS th ON st.theme_id=th.theme_id LEFT JOIN reviewers AS re ON st.reviewer_id=re.reviewer_id;", (err, result) => {
+        connection.query("SELECT * FROM flStudents;", (err, result) => {
             connection.release();
             if (!err) {
                 res.render("flAdmin", {search: "/flVkr", result: result});
@@ -201,7 +201,7 @@ exports.flInsertPage = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         console.log("db " + connection.state + "\n");
-            connection.query("SELECT * FROM flStudents AS st LEFT JOIN teachers AS te ON st.teacher_id=te.teacher_id LEFT JOIN extThemes AS th ON st.theme_id=th.theme_id LEFT JOIN reviewers AS re ON st.reviewer_id=re.reviewer_id WHERE student_id=?;", [req.params.id], (err, result) => {
+            connection.query("SELECT * FROM flStudents WHERE student_id=?;", [req.params.id], (err, result) => {
             connection.release();
             if (!err) {
                 res.render("flInsert", {result: result});
@@ -214,17 +214,17 @@ exports.flInsertPage = (req, res) => {
 }
 //Insert comment into database
 exports.flInsert = (req, res) => {
-    const {comment} = req.body;
+    const { comment, theme_name, reviewer_name } = req.body;
     pool.getConnection((err, connection) => {
         if (err) throw err;
         console.log("db " + connection.state + "\n");
-        connection.query("UPDATE flStudents SET comment=? WHERE student_id=?;", [comment, req.params.id], (err, result) => {
+        connection.query("UPDATE flStudents SET comment=?, theme_name=?, reviewer_name=? WHERE student_id=?;", [comment, theme_name, reviewer_name, req.params.id], (err, result) => {
             connection.release();
             if (!err) {
                 pool.getConnection((err, connection) => {
                     if (err) throw err;
                     console.log("db " + connection.state + "\n");
-                      connection.query("SELECT * FROM flStudents AS st LEFT JOIN teachers AS te ON st.teacher_id=te.teacher_id LEFT JOIN extThemes AS th ON st.theme_id=th.theme_id LEFT JOIN reviewers AS re ON st.reviewer_id=re.reviewer_id WHERE student_id=?;", [req.params.id], (err, result) => {
+                      connection.query("SELECT * FROM flStudents WHERE student_id=?;", [req.params.id], (err, result) => {
                         connection.release();
                         if (!err) {
                             res.render("flInsert", {result, alert: "Запись обновлена."});
@@ -242,4 +242,3 @@ exports.flInsert = (req, res) => {
         });
     });
 }
-
