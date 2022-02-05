@@ -46,6 +46,29 @@ exports.extSearch = (req, res) => {
         });
     });
 }
+
+//Search
+exports.extAdminSearch = (req, res) => {
+    let searchTerm = req.body.search;
+    console.log(searchTerm);
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("db " + connection.state + "\n");
+        connection.query("SELECT * FROM extStudents WHERE student_name LIKE ? OR teacher_name LIKE ?", ['%' + searchTerm + '%', '%' + searchTerm + '%'], (err, result) => {
+            connection.release();
+            if (!err) {
+                res.render("extAdmin", {result: result});
+            } else {
+                console.log(err);
+            }
+            console.log("database data: \n", result);
+        });
+    });
+}
+
+
+
+
 //View user
 exports.extViewAll = (req, res) => {
     pool.getConnection((err, connection) => {
@@ -70,7 +93,7 @@ exports.extAdmin = (req, res) => {
         connection.query("SELECT * FROM extStudents;", (err, result) => {
             connection.release();
             if (!err) {
-                res.render("extAdmin", {search: "/etxVkr", result: result});
+                res.render("extAdmin", {search: "/extVkr/admin", result: result});
             } else {
                 console.log(err);
             }
@@ -162,6 +185,25 @@ exports.flSearch = (req, res) => {
         });
     });
 }
+
+exports.flAdminSearch = (req, res) => {
+    let searchTerm = req.body.search;
+    console.log(searchTerm);
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("db " + connection.state + "\n");
+        connection.query("SELECT * FROM flStudents WHERE student_name LIKE ? OR teacher_name LIKE ?;", ['%' + searchTerm + '%', '%' + searchTerm + '%'], (err, result) => {
+            connection.release();
+            if (!err) {
+                res.render("flAdmin", {result: result});
+            } else {
+                console.log(err);
+            }
+            console.log("database data: \n", result);
+        });
+    });
+}
+
 //View user
 exports.flViewAll = (req, res) => {
     pool.getConnection((err, connection) => {
@@ -187,7 +229,7 @@ exports.flAdmin = (req, res) => {
         connection.query("SELECT * FROM flStudents;", (err, result) => {
             connection.release();
             if (!err) {
-                res.render("flAdmin", {search: "/flVkr", result: result});
+                res.render("flAdmin", {search: "/flVkr/admin", result: result});
             } else {
                 console.log(err);
             }
@@ -242,3 +284,141 @@ exports.flInsert = (req, res) => {
         });
     });
 }
+
+// Term Paper
+exports.tpVkr = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("db " + connection.state + "\n");
+        connection.query("SELECT * FROM tpStudents;", (err, result) => {
+            connection.release();
+            if (!err) {
+                res.render("tpVkr", {search: "/tpVkr", result: result});
+            } else {
+                console.log(err);
+            }
+            console.log("database data: \n", result);
+        });
+    });
+}
+//Search
+exports.tpSearch = (req, res) => {
+    let searchTerm = req.body.search;
+    console.log(searchTerm);
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("db " + connection.state + "\n");
+        connection.query("SELECT * FROM tpStudents WHERE student_name LIKE ?", ['%' + searchTerm + '%'], (err, result) => {
+            connection.release();
+            if (!err) {
+                res.render("tpVkr", {result: result});
+            } else {
+                console.log(err);
+            }
+            console.log("database data: \n", result);
+        });
+    });
+}
+
+//Search
+exports.tpAdminSearch = (req, res) => {
+    let searchTerm = req.body.search;
+    console.log(searchTerm);
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("db " + connection.state + "\n");
+        connection.query("SELECT * FROM tpStudents WHERE student_name LIKE", ['%' + searchTerm + '%'], (err, result) => {
+            connection.release();
+            if (!err) {
+                res.render("tpAdmin", {result: result});
+            } else {
+                console.log(err);
+            }
+            console.log("database data: \n", result);
+        });
+    });
+}
+
+
+//View user
+exports.tpViewAll = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("db " + connection.state + "\n");
+        connection.query("SELECT * FROM tpStudents WHERE student_id=?;", [req.params.id], (err, result) => {
+            connection.release();
+            if (!err) {
+                res.render("tpViewAll", {result: result});
+            } else {
+                console.log(err);
+            }
+            console.log("database data: \n", result);
+        });
+    });
+}
+//Admin page
+exports.tpAdmin = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("db " + connection.state + "\n");
+        connection.query("SELECT * FROM tpStudents;", (err, result) => {
+            connection.release();
+            if (!err) {
+                res.render("tpAdmin", {search: "/tpVkr/admin", result: result});
+            } else {
+                console.log(err);
+            }
+            console.log(req.body);
+            console.log("database data: \n", result);
+        });
+    });
+}
+//Page for add comment       admin/insert 
+exports.tpInsertPage = (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("db " + connection.state + "\n");
+            connection.query("SELECT * FROM tpStudents WHERE student_id=?;", [req.params.id], (err, result) => {
+            connection.release();
+            if (!err) {
+                res.render("tpInsert", {result: result});
+            } else {
+                console.log(err);
+            }
+            console.log("database data: \n", result);
+        });
+    });
+}
+//Insert comment into database
+exports.tpInsert = (req, res) => {
+    const {comment} = req.body;
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("db " + connection.state + "\n");
+        connection.query("UPDATE tpStudents SET comment=? WHERE student_id=?;", [comment, req.params.id], (err, result) => {
+            connection.release();
+            if (!err) {
+                pool.getConnection((err, connection) => {
+                    if (err) throw err;
+                    console.log("db " + connection.state + "\n");
+                      connection.query("SELECT * FROM tpStudents WHERE student_id=?;", [req.params.id], (err, result) => {
+                        connection.release();
+                        if (!err) {
+                            res.render("tpInsert", {result, alert: "Запись обновлена."});
+                        } else {
+                            console.log(err);
+                        }
+                        console.log(req.params);
+                        console.log("database data: \n", result);
+                    });
+                });
+            } else {
+                console.log(err);
+            }
+            console.log("database data: \n", result);
+        });
+    });
+}
+
+
+

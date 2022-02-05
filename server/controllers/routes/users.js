@@ -31,4 +31,17 @@ route.get("/flVkr/admin/insert/:id", userController.flInsertPage);
 route.post("/flVkr/admin/insert/:id", userController.flInsert);
 
 
+// Temp Papper 
+route.get("/tpVkr", userController.tpVkr);
+route.post("/tpVkr", userController.tpSearch);
+
+route.get("/tpVkr/admin", userController.tpAdmin);
+route.post("/tpVkr/admin", userController.tpSearch);
+
+route.get("/tpVkr/viewuser/:id", userController.tpViewAll);
+
+route.get("/tpVkr/admin/insert/:id", userController.tpInsertPage);
+route.post("/tpVkr/admin/insert/:id", userController.tpInsert);
+
+
 module.exports = route;
