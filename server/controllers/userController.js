@@ -256,11 +256,11 @@ exports.flInsertPage = (req, res) => {
 }
 //Insert comment into database
 exports.flInsert = (req, res) => {
-    const { comment, theme_name, reviewer_name } = req.body;
+    const { comment, theme_name, reviewer_name, teacher_name } = req.body;
     pool.getConnection((err, connection) => {
         if (err) throw err;
         console.log("db " + connection.state + "\n");
-        connection.query("UPDATE flStudents SET comment=?, theme_name=?, reviewer_name=? WHERE student_id=?;", [comment, theme_name, reviewer_name, req.params.id], (err, result) => {
+        connection.query("UPDATE flStudents SET comment=?, theme_name=?, reviewer_name=?, teacher_name=? WHERE student_id=?;", [comment, theme_name, reviewer_name, teacher_name, req.params.id], (err, result) => {
             connection.release();
             if (!err) {
                 pool.getConnection((err, connection) => {

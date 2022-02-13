@@ -8,7 +8,7 @@ app.set("view engine", "hbs");
 app.set("views", "../views");
 
 require("dotenv").config();
-const port = 3000;
+const port = 5000;
 
 const mysql = require("mysql");
 
