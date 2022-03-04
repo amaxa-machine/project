@@ -9,10 +9,17 @@ const pool = mysql.createPool({
 });
 
 
+// HOME-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 exports.home = (req, res) => {
     res.render("home");
 }
-// Extrams
+
+
+
+// EXTRAMS ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+
+
 exports.extVkr = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
@@ -65,10 +72,6 @@ exports.extAdminSearch = (req, res) => {
         });
     });
 }
-
-
-
-
 //View user
 exports.extViewAll = (req, res) => {
     pool.getConnection((err, connection) => {
@@ -149,8 +152,62 @@ exports.extInsert = (req, res) => {
     });
 }
 
+//Page for add comment for users      ext/comment
+exports.extComment= (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("db " + connection.state + "\n");
+            connection.query("SELECT * FROM extStudents WHERE student_id=?;", [req.params.id], (err, result) => {
+            connection.release();
+            if (!err) {
+                res.render("extComment", {result: result});
+            } else {
+                console.log(err);
+            }
+            console.log("database data: \n", result);
+        });
+    });
+}
+//Insert comment into database
+exports.extCommentInsert= (req, res) => {
+    const {comment} = req.body;
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("db " + connection.state + "\n");
+        connection.query("UPDATE extStudents SET comment=? WHERE student_id=?;", [comment, req.params.id], (err, result) => {
+            connection.release();
+            if (!err) {
+                pool.getConnection((err, connection) => {
+                    if (err) throw err;
+                    console.log("db " + connection.state + "\n");
+                      connection.query("SELECT * FROM extStudents WHERE student_id=?;", [req.params.id], (err, result) => {
+                        connection.release();
+                        if (!err) {
+                            res.render("extComment", {result, alert: "Запись обновлена."});
+                        } else {
+                            console.log(err);
+                        }
+                        console.log(req.params);
+                        console.log("database data: \n", result);
+                    });
+                });
+            } else {
+                console.log(err);
+            }
+            console.log("database data: \n", result);
+        });
+    });
+}
+    
+    
 
-// Full-timers
+
+// FULL-TIMERS------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 exports.flVkr = (req, res) => {
     console.log(req.params);
     pool.getConnection((err, connection) => {
@@ -185,7 +242,6 @@ exports.flSearch = (req, res) => {
         });
     });
 }
-
 exports.flAdminSearch = (req, res) => {
     let searchTerm = req.body.search;
     console.log(searchTerm);
@@ -203,7 +259,6 @@ exports.flAdminSearch = (req, res) => {
         });
     });
 }
-
 //View user
 exports.flViewAll = (req, res) => {
     pool.getConnection((err, connection) => {
@@ -220,7 +275,6 @@ exports.flViewAll = (req, res) => {
         });
     });
 }
-
 //Admin page
 exports.flAdmin = (req, res) => {
     pool.getConnection((err, connection) => {
@@ -284,8 +338,59 @@ exports.flInsert = (req, res) => {
         });
     });
 }
+//Page for add comment for users      fl/comment
+exports.flComment= (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("db " + connection.state + "\n");
+            connection.query("SELECT * FROM flStudents WHERE student_id=?;", [req.params.id], (err, result) => {
+            connection.release();
+            if (!err) {
+                res.render("flComment", {result: result});
+            } else {
+                console.log(err);
+            }
+            console.log("database data: \n", result);
+        });
+    });
+}
+//Insert comment into database
+exports.flCommentInsert= (req, res) => {
+    const {comment} = req.body;
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("db " + connection.state + "\n");
+        connection.query("UPDATE flStudents SET comment=? WHERE student_id=?;", [comment, req.params.id], (err, result) => {
+            connection.release();
+            if (!err) {
+                pool.getConnection((err, connection) => {
+                    if (err) throw err;
+                    console.log("db " + connection.state + "\n");
+                      connection.query("SELECT * FROM flStudents WHERE student_id=?;", [req.params.id], (err, result) => {
+                        connection.release();
+                        if (!err) {
+                            res.render("flComment", {result, alert: "Запись обновлена."});
+                        } else {
+                            console.log(err);
+                        }
+                        console.log(req.params);
+                        console.log("database data: \n", result);
+                    });
+                });
+            } else {
+                console.log(err);
+            }
+            console.log("database data: \n", result);
+        });
+    });
+}
 
-// Term Paper
+
+
+// TERM PAPERS--------------------------------------------------------------------------------------------------------------------------------- 
+
+
+
 exports.tpVkr = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
@@ -419,6 +524,49 @@ exports.tpInsert = (req, res) => {
         });
     });
 }
-
-
-
+//Page for add comment for users      tp/comment
+exports.tpComment= (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("db " + connection.state + "\n");
+            connection.query("SELECT * FROM tpStudents WHERE student_id=?;", [req.params.id], (err, result) => {
+            connection.release();
+            if (!err) {
+                res.render("tpComment", {result: result});
+            } else {
+                console.log(err);
+            }
+            console.log("database data: \n", result);
+        });
+    });
+}
+//Insert comment into database
+exports.tpCommentInsert= (req, res) => {
+    const {comment} = req.body;
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        console.log("db " + connection.state + "\n");
+        connection.query("UPDATE tpStudents SET comment=? WHERE student_id=?;", [comment, req.params.id], (err, result) => {
+            connection.release();
+            if (!err) {
+                pool.getConnection((err, connection) => {
+                    if (err) throw err;
+                    console.log("db " + connection.state + "\n");
+                      connection.query("SELECT * FROM tpStudents WHERE student_id=?;", [req.params.id], (err, result) => {
+                        connection.release();
+                        if (!err) {
+                            res.render("tpComment", {result, alert: "Запись обновлена."});
+                        } else {
+                            console.log(err);
+                        }
+                        console.log(req.params);
+                        console.log("database data: \n", result);
+                    });
+                });
+            } else {
+                console.log(err);
+            }
+            console.log("database data: \n", result);
+        });
+    });
+}
